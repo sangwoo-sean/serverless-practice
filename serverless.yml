@@ -4,7 +4,10 @@ frameworkVersion: "3"
 provider:
   name: aws
   runtime: nodejs18.x
-  region: ap-northeast-2
+  region: ap-northeast-2 #default: us-east-1
+  stage: dev #default: dev
+  environment:
+    FOO: bar
 
 functions:
   function1:
