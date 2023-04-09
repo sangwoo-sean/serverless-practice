@@ -12,3 +12,10 @@ provider:
 functions:
   function1:
     handler: index.handler
+
+  myfunction:
+    handler: index.handler
+    events:
+      - http:
+          method: GET
+          path: /test-get
