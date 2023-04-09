@@ -18,4 +18,11 @@ functions:
     events:
       - http:
           method: GET
-          path: /test-get
+          path: /test-get/{param}
+          request:
+            parameters:
+              paths:
+                param: true
+              querystrings: #this is optional.
+                foo: false
+                bar: true
