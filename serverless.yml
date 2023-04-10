@@ -26,3 +26,32 @@ functions:
               querystrings: #this is optional.
                 foo: false
                 bar: true
+
+  dynamo:
+    handler: dynamo.handler
+    events:
+      - http:
+          method: PUT
+          path: /items
+          request:
+            parameters:
+              querystrings:
+                price: true
+                name: true
+      - http:
+          method: GET
+          path: /items
+      - http:
+          method: GET
+          path: /items/{id}
+          request:
+            parameters:
+              paths:
+                id: true
+      - http:
+          method: DELETE
+          path: /items/{id}
+          request:
+            parameters:
+              paths:
+                id: true

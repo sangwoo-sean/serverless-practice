@@ -1,0 +1,6 @@
+{
+  "routeKey": "GET /items/{id}",
+  "pathParameters": {
+    "id": "590c62e0-bdfc-4495-8382-db557b9906c3"
+  }
+}

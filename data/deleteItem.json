@@ -1,0 +1,6 @@
+{
+  "routeKey": "DELETE /items/{id}",
+  "pathParameters": {
+    "id": "0e22fad1-140f-4752-8e48-fcce4207fe45"
+  }
+}
