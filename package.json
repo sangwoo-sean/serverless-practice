@@ -2,7 +2,10 @@
   "name": "lambda-test",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {},
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.310.0",
+    "@aws-sdk/lib-dynamodb": "^3.310.0"
+  },
   "scripts": {},
   "browserslist": {
     "production": [

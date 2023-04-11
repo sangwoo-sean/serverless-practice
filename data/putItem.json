@@ -1,4 +1,4 @@
 {
   "routeKey": "PUT /items",
-  "body": "{\"price\": 1000, \"name\": \"note\"}"
+  "body": "{\"Artist\": \"Acme Band\", \"AlbumTitle\": \"TestAlbumTitle\", \"Awards\": 0, \"SongTitle\": \"TestSongTitle\"}"
 }

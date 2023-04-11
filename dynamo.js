@@ -1,20 +1,11 @@
 const { DynamoDBClient } = require("@aws-sdk/client-dynamodb");
 const { DynamoDBDocumentClient, ScanCommand, PutCommand, GetCommand, DeleteCommand } = require("@aws-sdk/lib-dynamodb");
 
-const client = new DynamoDBClient({});
+const client = new DynamoDBClient({ endpoint: "http://localhost:8000" });
 
 const dynamo = DynamoDBDocumentClient.from(client);
 
-const tableName = "lambda-test";
-
-function uuidv4() {
-  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
-    var r = (Math.random() * 16) | 0,
-      v = c == "x" ? r : (r & 0x3) | 0x8;
-    return v.toString(16);
-  });
-}
-// "body": "{\"price\": 1000,\"name\": \"note\"}"
+const TableName = "Music";
 
 module.exports.handler = async (event, context) => {
   let body;
@@ -24,33 +15,35 @@ module.exports.handler = async (event, context) => {
   try {
     switch (event.routeKey) {
       case "DELETE /items/{id}":
-        await dynamo.send(new DeleteCommand({ TableName: tableName, Key: { id: event.pathParameters.id } }));
+        await dynamo.send(new DeleteCommand({ TableName, Key: { id: event.pathParameters.id } }));
         body = `Deleted item ${event.pathParameters.id}`;
         break;
       case "GET /items/{id}": {
-        const result = await dynamo.send(new GetCommand({ TableName: tableName, Key: { id: event.pathParameters.id } }));
+        const { Artist, SongTitle } = event.pathParameters;
+        const result = await dynamo.send(new GetCommand({ TableName, Key: { Artist, SongTitle } }));
         body = result.Item;
         break;
       }
       case "GET /items": {
-        const result = await dynamo.send(new ScanCommand({ TableName: tableName }));
+        const result = await dynamo.send(new ScanCommand({ TableName }));
         body = result.Items;
         break;
       }
       case "PUT /items": {
-        let { price, name } = JSON.parse(event.body);
-        const id = uuidv4();
+        const now = Date.now().toString().substring(9, 13);
+        let { Artist, AlbumTitle, Awards, SongTitle } = JSON.parse(event.body);
         await dynamo.send(
           new PutCommand({
-            TableName: tableName,
+            TableName,
             Item: {
-              id,
-              price,
-              name
+              Artist,
+              AlbumTitle: AlbumTitle + now,
+              Awards: Math.round(Math.random() * 10),
+              SongTitle: SongTitle + now
             }
           })
         );
-        body = `Put item ${id}`;
+        body = `Put item ${SongTitle + now}`;
         break;
       }
       default:
